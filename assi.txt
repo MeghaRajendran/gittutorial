@@ -1,0 +1,184 @@
+class Node:
+	def _init_(self, data):
+		self.data = data # Assign data
+		self.next = None # Initialize next as null
+
+class LinkedList:
+	def _init_(self):
+		self.head = None
+
+	def push(self, new_data):
+		new_node = Node(new_data)
+		new_node.next = self.head
+		self.head = new_node
+
+	def insertAfter(self, p, new_data):
+		new_node = Node(new_data)
+		if p<1:
+			print("position should be >= 1")
+		elif p == 1:
+			new_node.next = self.head
+			self.head = new_node
+		else:
+			t = self.head
+			for i in range(1, p-1):
+				if(t != None):
+					t = t.next
+			if(t != None):
+				new_node.next = t.next
+				t.next = new_node
+			else:
+				print("The previous node is null")
+
+	def append(self, new_data):
+		new_node = Node(new_data)
+		if self.head is None:
+			self.head = new_node
+			return
+		last = self.head
+		while (last.next):
+			last = last.next
+		last.next = new_node
+
+	def printList(self):
+		temp = self.head
+		while (temp):
+			print(temp.data,end=" \n")
+			temp = temp.next
+
+	def remove(self, item):
+		current = self.head
+		previous = None
+		found = False
+		while not found:
+			if current.data == item:
+				found = True
+			else:
+				previous = current
+				current = current.next
+		if previous == None:
+			self.head = current.next
+		else:
+			previous.next = current.next
+
+
+if _name=='main_':
+	llist = LinkedList()
+while 1:
+	print("Menu \n 1. Insert at the end \n 2. Insert at the suggested position \n 3. Deletion of course name \n 4. Display \n 5. Exit \n")
+	c = int(input("Enter your choice:"))
+	if c == 1:
+		itm = input("Enter the course name:")
+		llist.append(itm)
+	elif c == 2:
+		p = int(input("Enter the position to be inserted:"))
+		itm = input("Enter the course name:")
+		llist.insertAfter(p, itm)
+	elif c == 3:
+		itm = input("Enter the item to be deleted:")
+		llist.remove(itm)
+	elif c == 4:
+		print("COURSES \n--------- \n")
+		llist.printList()
+	elif c == 5:
+		exit()
+	else:
+		print("Invalid choice")
+
+
+
+
+
+
+
+
+
+
+
+
+class Node(object):
+    # Singly linked node
+    def _init_(self, value=None, next=None, prev=None):
+        self.value = value
+        self.next = next
+        self.prev = prev
+
+
+class doubly_linked_list(object):
+    def _init_(self):
+        self.head = None
+        self.tail = None
+        self.count = 0
+
+    def append_item(self, value):
+        # Append an item
+        new_item = Node(value, None, None)
+        if self.head is None:
+            self.head = new_item
+            self.tail = self.head
+        else:
+            new_item.prev = self.tail
+            self.tail.next = new_item
+            self.tail = new_item
+        self.count += 1
+
+    def iter(self):
+        # Iterate the list
+        current = self.head
+        while current:
+            item_val = current.value
+            current = current.next
+            yield item_val
+
+    def print_foward(self):
+        for node in self.iter():
+            print(node)
+
+
+
+    def delete(self, value):
+        # Delete a specific item
+        current = self.head
+        node_deleted = False
+        if current is None:
+            node_deleted = False
+
+        elif current.value == value:
+            self.head = current.next
+            self.head.prev = None
+            node_deleted = True
+
+        elif self.tail.value == value:
+            self.tail = self.tail.prev
+            self.tail.next = None
+            node_deleted = True
+
+        else:
+            while current:
+                if current.value == value:
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
+                    node_deleted = True
+                current = current.next
+
+        if node_deleted:
+            self.count -= 1
+
+
+items = doubly_linked_list()
+while 1:
+    print("Menu \n 1. Insert the name \n 2. Delete the suggested name \n 3. Display the list \n 4. Exit \n")
+    c = int(input("Enter your choice:"))
+    if c == 1:
+        itm = input("Enter the item:")
+        items.append_item(itm)
+    elif c == 2:
+        it = input("Enter the name to be deleted:")
+        items.delete(it)
+    elif c == 3:
+        print("Name list \n ***")
+        items.print_foward()
+    elif c == 4:
+        exit()
+    else:
+        print("Invalid choice")
